@@ -1,0 +1,866 @@
+/* ==========================================================================
+   PESCANDO EL CÓDIGO - CSS ESTILOS Y ANIMACIONES
+   Estilo moderno, juvenil, dinámico y responsivo.
+   ========================================================================== */
+
+/* Variables de Color y Diseño */
+:root {
+    --primary-sky: #4ea8de;
+    --secondary-sky: #90e0ef;
+    --sun-color: #ffd166;
+    --water-top: #00b4d8;
+    --water-mid: #0077b6;
+    --water-deep: #03045e;
+    --sand-color: #e9c46a;
+    --wood-color: #8d5b4c;
+    
+    --card-bg: rgba(255, 255, 255, 0.92);
+    --text-dark: #1d3557;
+    --text-muted: #457b9d;
+    --correct-green: #2a9d8f;
+    --correct-bg: #e8f8f5;
+    --incorrect-red: #e63946;
+    --incorrect-bg: #fde8e8;
+    
+    --font-heading: 'Fredoka', cursive, sans-serif;
+    --font-body: 'Outfit', sans-serif;
+    
+    --radius-lg: 20px;
+    --radius-md: 12px;
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.15);
+    --shadow-strong: 0 15px 35px rgba(0, 0, 0, 0.25);
+    --transition-fast: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset y Base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: #1a1a2e;
+    color: var(--text-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Contenedor Principal del Juego */
+.game-container {
+    width: 100%;
+    max-width: 1100px;
+    height: 94vh;
+    max-height: 850px;
+    background: linear-gradient(to bottom, #3a86ff 0%, #70c1b3 100%);
+    border-radius: 24px;
+    box-shadow: var(--shadow-strong);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    border: 4px solid rgba(255, 255, 255, 0.4);
+}
+
+/* ==========================================================================
+   HUD & BARRA SUPERIOR
+   ========================================================================== */
+.hud-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    z-index: 10;
+}
+
+.hud-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-icon {
+    font-size: 1.8rem;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.game-title {
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+.hud-stats {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.stat-badge {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 6px 14px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    min-width: 95px;
+}
+
+.badge-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 700;
+}
+
+.badge-value {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-dark);
+}
+
+.score-badge .badge-value {
+    color: #e63946;
+}
+
+.icon-btn {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: var(--transition-fast);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.icon-btn:hover {
+    transform: scale(1.1);
+    background: #ffffff;
+}
+
+/* Barra de Progreso */
+.progress-bar-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    width: 7.14%; /* 1/14 */
+    background: linear-gradient(90deg, #ff9f43, #ee5253);
+    transition: width 0.4s ease-out;
+    border-radius: 0 4px 4px 0;
+}
+
+/* ==========================================================================
+   PANEL DE PREGUNTAS Y FEEDBACK
+   ========================================================================== */
+.question-container {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 9;
+    position: relative;
+}
+
+.question-card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 18px 28px;
+    width: 100%;
+    max-width: 900px;
+    text-align: center;
+    box-shadow: var(--shadow-soft);
+    border: 2px solid rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    transition: var(--transition-fast);
+}
+
+.question-tag {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0284c7;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.question-text {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    color: var(--text-dark);
+    line-height: 1.35;
+}
+
+/* Toast Banner de Feedback */
+.feedback-banner {
+    position: absolute;
+    top: 90px;
+    background: #ffffff;
+    padding: 12px 24px;
+    border-radius: 50px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    font-size: 1.05rem;
+    z-index: 20;
+    animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 3px solid #2a9d8f;
+    max-width: 90%;
+}
+
+.feedback-banner.success {
+    background: var(--correct-bg);
+    color: var(--correct-green);
+    border-color: var(--correct-green);
+}
+
+.feedback-banner.error {
+    background: var(--incorrect-bg);
+    color: var(--incorrect-red);
+    border-color: var(--incorrect-red);
+}
+
+.feedback-icon {
+    font-size: 1.5rem;
+}
+
+/* ==========================================================================
+   ESCENA PRINCIPAL DEL JUEGO (CIELO, PESCADOR, LAGO)
+   ========================================================================== */
+.game-scene {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+/* CIELO & ELEMENTOS DE FONDO */
+.sky-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 38%;
+    background: linear-gradient(to bottom, #3a86ff 0%, #70c1b3 100%);
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.sun {
+    position: absolute;
+    top: 15px;
+    right: 40px;
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #fff7ad 0%, var(--sun-color) 70%);
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(255, 209, 102, 0.8);
+    animation: sunPulse 4s infinite alternate ease-in-out;
+}
+
+.cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50px;
+    opacity: 0.9;
+}
+
+.cloud::before, .cloud::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+}
+
+.cloud-1 {
+    width: 100px;
+    height: 35px;
+    top: 20px;
+    left: 10%;
+    animation: floatCloud 25s infinite linear;
+}
+.cloud-1::before { width: 45px; height: 45px; top: -20px; left: 15px; }
+.cloud-1::after { width: 35px; height: 35px; top: -12px; left: 45px; }
+
+.cloud-2 {
+    width: 130px;
+    height: 40px;
+    top: 45px;
+    left: 55%;
+    animation: floatCloud 35s infinite linear reverse;
+}
+.cloud-2::before { width: 55px; height: 55px; top: -25px; left: 20px; }
+.cloud-2::after { width: 40px; height: 40px; top: -15px; left: 60px; }
+
+.cloud-3 {
+    width: 90px;
+    height: 30px;
+    top: 15px;
+    left: 80%;
+    animation: floatCloud 20s infinite linear;
+}
+.cloud-3::before { width: 38px; height: 38px; top: -15px; left: 12px; }
+.cloud-3::after { width: 30px; height: 30px; top: -10px; left: 40px; }
+
+.mountains {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background: repeating-linear-gradient(
+        135deg,
+        #3b7a57,
+        #3b7a57 30px,
+        #2d5a40 30px,
+        #2d5a40 60px
+    );
+    clip-path: polygon(0% 100%, 0% 40%, 15% 15%, 30% 50%, 45% 10%, 65% 60%, 80% 20%, 100% 45%, 100% 100%);
+    opacity: 0.4;
+}
+
+/* BOTE Y PESCADOR */
+.boat-fisherman-container {
+    position: absolute;
+    top: calc(38% - 100px);
+    left: 4%;
+    width: 170px;
+    height: 140px;
+    z-index: 6;
+    animation: boatBob 3.5s infinite ease-in-out;
+}
+
+.fisherman-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
+}
+
+/* HILO DE PESCAR OVERLAY */
+.fishing-line-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 7;
+}
+
+/* LAGO Y CAPA DE AGUA */
+.water-layer {
+    position: relative;
+    width: 100%;
+    height: 62%;
+    background: linear-gradient(to bottom, #00b4d8 0%, #0077b6 40%, #03045e 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+/* Olas animadas en la superficie del agua */
+.wave {
+    position: absolute;
+    left: 0;
+    width: 200%;
+    height: 25px;
+    background: repeat-x url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0,0 C150,40 350,-40 500,0 C650,40 850,-40 1000,0 C1150,40 1350,-40 1500,0 L1500,120 L0,120 Z' fill='rgba(255,255,255,0.25)'%3E%3C/path%3E%3C/svg%3E");
+    top: -12px;
+}
+
+.wave-1 {
+    animation: waveMove 12s infinite linear;
+    opacity: 0.6;
+}
+
+.wave-2 {
+    top: -6px;
+    animation: waveMove 8s infinite linear reverse;
+    opacity: 0.4;
+}
+
+.wave-3 {
+    top: 0px;
+    animation: waveMove 16s infinite linear;
+    opacity: 0.3;
+}
+
+/* Algas marinas decorativas */
+.seaweed {
+    position: absolute;
+    bottom: 0;
+    width: 20px;
+    background: #2a9d8f;
+    border-radius: 10px 10px 0 0;
+    opacity: 0.5;
+    transform-origin: bottom center;
+    animation: sway 4s infinite ease-in-out alternate;
+}
+
+.seaweed-1 { left: 8%; height: 120px; animation-delay: 0s; }
+.seaweed-2 { left: 88%; height: 160px; animation-delay: 1.2s; }
+.seaweed-3 { left: 93%; height: 100px; animation-delay: 2.5s; }
+
+/* Burbujas */
+.bubble {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.4);
+    border-radius: 50%;
+    bottom: -20px;
+    animation: bubbleRise 6s infinite ease-in;
+}
+
+.bubble-1 { width: 14px; height: 14px; left: 25%; animation-duration: 5s; }
+.bubble-2 { width: 22px; height: 22px; left: 60%; animation-duration: 7s; animation-delay: 2s; }
+.bubble-3 { width: 10px; height: 10px; left: 75%; animation-duration: 4.5s; animation-delay: 1s; }
+
+/* ==========================================================================
+   TARJETAS DE PECES (OPCIONES DE RESPUESTA)
+   ========================================================================== */
+.fish-container {
+    width: 100%;
+    max-width: 1000px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 16px;
+    z-index: 8;
+    position: relative;
+}
+
+.fish-card {
+    background: var(--card-bg);
+    border-radius: 50px;
+    padding: 14px 22px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
+    position: relative;
+    width: 90%;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+/* Animación de Nado individual para cada pez */
+.fish-card:nth-child(1) { animation: swim1 5.5s infinite ease-in-out; }
+.fish-card:nth-child(2) { animation: swim2 6.5s infinite ease-in-out 0.8s; }
+.fish-card:nth-child(3) { animation: swim3 5.8s infinite ease-in-out 1.5s; }
+
+.fish-card:hover {
+    transform: scale(1.03) translateY(-4px) !important;
+    box-shadow: 0 12px 30px rgba(255, 255, 255, 0.4), 0 0 20px rgba(0, 180, 216, 0.6);
+    border-color: #00b4d8;
+}
+
+.fish-card:active {
+    transform: scale(0.98) !important;
+}
+
+/* Estilos de respuesta correcta/incorrecta al pescar */
+.fish-card.fished-correct {
+    background: #d4edda !important;
+    border-color: #28a745 !important;
+    box-shadow: 0 0 25px rgba(40, 167, 69, 0.8) !important;
+    animation: catchBounce 0.6s ease forwards !important;
+}
+
+.fish-card.fished-incorrect {
+    background: #f8d7da !important;
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 20px rgba(220, 53, 69, 0.6) !important;
+    animation: shake 0.5s ease forwards !important;
+}
+
+.fish-card.reveal-correct {
+    background: #d1ecf1 !important;
+    border-color: #17a2b8 !important;
+    box-shadow: 0 0 20px rgba(23, 162, 184, 0.7) !important;
+}
+
+.fish-avatar {
+    width: 60px;
+    height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));
+}
+
+.fish-avatar svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+}
+
+.fish-card:hover .fish-avatar svg {
+    transform: rotate(-10deg) scale(1.1);
+}
+
+.option-badge {
+    background: #2b2d42;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.option-text {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    line-height: 1.3;
+    flex: 1;
+}
+
+/* ==========================================================================
+   PANTALLA FINAL (RESULTADOS)
+   ========================================================================== */
+.end-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    animation: fadeIn 0.4s ease;
+}
+
+.end-screen.hidden {
+    display: none;
+}
+
+.end-card {
+    background: #ffffff;
+    border-radius: 28px;
+    padding: 32px;
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    box-shadow: var(--shadow-strong);
+    animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 4px solid #3a86ff;
+}
+
+.trophy-badge {
+    font-size: 4rem;
+    margin-bottom: 10px;
+    animation: bounceTrophy 2s infinite ease-in-out;
+}
+
+.end-title {
+    font-family: var(--font-heading);
+    font-size: 2rem;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+}
+
+.end-subtitle {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-bottom: 24px;
+}
+
+.stat-card {
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-md);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-icon {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.stat-name {
+    font-size: 0.8rem;
+    color: #64748b;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.feedback-message-box {
+    background: #f0f9ff;
+    border-left: 5px solid #0284c7;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 24px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #0369a1;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #3a86ff, #00b4d8);
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 14px 36px;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(58, 134, 255, 0.4);
+    transition: var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.primary-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 12px 25px rgba(58, 134, 255, 0.6);
+}
+
+.primary-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Utilitarios */
+.hidden {
+    display: none !important;
+}
+
+/* ==========================================================================
+   KEYFRAME ANIMATIONS
+   ========================================================================== */
+@keyframes floatCloud {
+    0% { transform: translateX(-150px); }
+    100% { transform: translateX(1100px); }
+}
+
+@keyframes sunPulse {
+    0% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 209, 102, 0.7); }
+    100% { transform: scale(1.08); box-shadow: 0 0 50px rgba(255, 209, 102, 0.9); }
+}
+
+@keyframes boatBob {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(-1.5deg); }
+}
+
+@keyframes waveMove {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes sway {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(8deg); }
+}
+
+@keyframes bubbleRise {
+    0% { transform: translateY(0) scale(0.8); opacity: 0; }
+    30% { opacity: 0.8; }
+    100% { transform: translateY(-300px) scale(1.2); opacity: 0; }
+}
+
+@keyframes swim1 {
+    0%, 100% { transform: translateX(0px) translateY(0px); }
+    50% { transform: translateX(15px) translateY(-6px); }
+}
+
+@keyframes swim2 {
+    0%, 100% { transform: translateX(0px) translateY(0px); }
+    50% { transform: translateX(-18px) translateY(6px); }
+}
+
+@keyframes swim3 {
+    0%, 100% { transform: translateX(0px) translateY(0px); }
+    50% { transform: translateX(12px) translateY(-8px); }
+}
+
+@keyframes catchBounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.08) translateY(-15px); }
+    60% { transform: scale(0.95) translateY(-5px); }
+    100% { transform: scale(1.04) translateY(-10px); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.6); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalPop {
+    0% { transform: scale(0.8) translateY(20px); opacity: 0; }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@keyframes bounceTrophy {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MEDIA QUERIES)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .game-container {
+        height: 100vh;
+        max-height: none;
+        border-radius: 0;
+        border: none;
+    }
+    
+    .game-title {
+        font-size: 1.25rem;
+    }
+    
+    .hud-header {
+        padding: 10px 14px;
+    }
+    
+    .stat-badge {
+        padding: 4px 10px;
+        min-width: 80px;
+    }
+    
+    .badge-label {
+        font-size: 0.65rem;
+    }
+    
+    .badge-value {
+        font-size: 0.9rem;
+    }
+    
+    .question-card {
+        padding: 12px 16px;
+    }
+    
+    .question-text {
+        font-size: 1.05rem;
+    }
+    
+    .boat-fisherman-container {
+        width: 140px;
+        height: 120px;
+        top: 20%;
+        left: 2%;
+    }
+    
+    .fish-card {
+        padding: 10px 14px;
+        gap: 10px;
+    }
+    
+    .fish-avatar {
+        width: 45px;
+        height: 38px;
+    }
+    
+    .option-text {
+        font-size: 0.9rem;
+    }
+
+    .feedback-banner {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+        top: 75px;
+    }
+
+    .end-card {
+        padding: 20px;
+    }
+
+    .stats-grid {
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hud-brand .game-title {
+        display: none; /* En móviles pequeños ocultamos título para espacio */
+    }
+
+    .question-container {
+        padding: 10px;
+    }
+
+    .question-text {
+        font-size: 0.95rem;
+    }
+
+    .option-badge {
+        width: 26px;
+        height: 26px;
+        font-size: 0.85rem;
+    }
+}

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pescando el Código - Juego Educativo Interactivo</title>
+    <meta name="description" content="Juego interactivo de pesca para aprender Git, GitHub, JavaScript y Frameworks Frontend.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Barra Superior / HUD -->
+        <header class="hud-header">
+            <div class="hud-brand">
+                <span class="logo-icon">🎣</span>
+                <h1 class="game-title">Pescando el Código</h1>
+            </div>
+            
+            <div class="hud-stats">
+                <div class="stat-badge question-badge">
+                    <span class="badge-label">Progreso</span>
+                    <span class="badge-value" id="question-tracker">Pregunta 1 / 14</span>
+                </div>
+                
+                <div class="stat-badge score-badge">
+                    <span class="badge-label">Puntuación</span>
+                    <span class="badge-value" id="score-tracker">0 pts</span>
+                </div>
+
+                <button id="sound-btn" class="icon-btn" title="Activar/Desactivar Sonido" aria-label="Toggle Sonido">
+                    <span id="sound-icon">🔊</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Barra de Progreso -->
+        <div class="progress-bar-container">
+            <div class="progress-bar-fill" id="progress-bar"></div>
+        </div>
+
+        <!-- Panel de Pregunta Principal -->
+        <section class="question-container">
+            <div class="question-card">
+                <span class="question-tag" id="question-category">Git & GitHub</span>
+                <h2 class="question-text" id="question-text">Cargando pregunta...</h2>
+            </div>
+            <!-- Mensaje de Feedback (Correcto / Incorrecto) -->
+            <div class="feedback-banner hidden" id="feedback-banner">
+                <span class="feedback-icon" id="feedback-icon">🎣</span>
+                <span class="feedback-text" id="feedback-text">¡Mensaje de feedback!</span>
+            </div>
+        </section>
+
+        <!-- Escena del Lago y Pescador -->
+        <main class="game-scene" id="game-scene">
+            <!-- Cielo y Elementos Naturales -->
+            <div class="sky-layer">
+                <div class="sun"></div>
+                <div class="cloud cloud-1"></div>
+                <div class="cloud cloud-2"></div>
+                <div class="cloud cloud-3"></div>
+                <div class="mountains"></div>
+            </div>
+
+            <!-- Bote, Pescador y Caña -->
+            <div class="boat-fisherman-container">
+                <svg class="fisherman-svg" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Bote -->
+                    <path d="M 20 130 Q 100 170 180 130 L 160 110 L 40 110 Z" fill="#8D5B4C" stroke="#5C3A2E" stroke-width="4"/>
+                    <path d="M 30 115 L 170 115" stroke="#A06957" stroke-width="3"/>
+                    
+                    <!-- Pescador - Cuerpo y Ropa -->
+                    <!-- Capa/Chaleco amarillo salvavidas -->
+                    <path d="M 80 85 C 75 65 110 65 105 85 L 115 115 L 70 115 Z" fill="#FFC107" stroke="#FFA000" stroke-width="3"/>
+                    <ellipse cx="92.5" cy="62" rx="14" ry="16" fill="#FCD5CE"/> <!-- Cabeza -->
+                    <!-- Gorra de pesca -->
+                    <path d="M 76 56 C 76 42 109 42 109 56 Z" fill="#2A9D8F"/>
+                    <path d="M 72 56 L 114 56 C 118 56 122 59 120 62 L 72 56 Z" fill="#264653"/>
+                    <!-- Ojo y Sonrisa -->
+                    <circle cx="98" cy="60" r="2" fill="#2B2D42"/>
+                    <path d="M 96 66 Q 100 70 102 66" stroke="#2B2D42" stroke-width="2" fill="none"/>
+                    
+                    <!-- Brazo sosteniendo caña -->
+                    <path d="M 98 82 L 130 75" stroke="#FCD5CE" stroke-width="7" stroke-linecap="round"/>
+                    
+                    <!-- Caña de Pescar -->
+                    <path id="rod-path" d="M 125 78 L 195 20" stroke="#6C5CE7" stroke-width="5" stroke-linecap="round"/>
+                    <circle cx="195" cy="20" r="4" fill="#FF7675"/> <!-- Punta de la caña -->
+                </svg>
+            </div>
+
+            <!-- SVG Overlay para el Hilo de Pescar -->
+            <svg class="fishing-line-svg" id="fishing-line-svg">
+                <path id="fishing-line" d="M 0 0 L 0 0" stroke="rgba(255, 255, 255, 0.8)" stroke-width="2.5" stroke-dasharray="4 2" fill="none"/>
+                <g id="fishing-hook" transform="translate(-100, -100)">
+                    <!-- Anzuelo SVG -->
+                    <path d="M 0 0 L 0 12 C 0 18 10 18 10 12 L 10 8" stroke="#E0E0E0" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <polygon points="10,8 14,10 10,12" fill="#E0E0E0"/>
+                    <circle cx="0" cy="0" r="2.5" fill="#FF5252"/>
+                </g>
+            </svg>
+
+            <!-- Capa de Agua y Peces -->
+            <div class="water-layer" id="water-layer">
+                <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div>
+
+                <!-- Plantas acuáticas decorativas -->
+                <div class="seaweed seaweed-1"></div>
+                <div class="seaweed seaweed-2"></div>
+                <div class="seaweed seaweed-3"></div>
+
+                <!-- Burbujas decorativas -->
+                <div class="bubble bubble-1"></div>
+                <div class="bubble bubble-2"></div>
+                <div class="bubble bubble-3"></div>
+
+                <!-- Contenedor de Peces (Opciones de Respuesta) -->
+                <div class="fish-container" id="fish-container">
+                    <!-- Los 3 peces se generarán dinámicamente desde JavaScript -->
+                </div>
+            </div>
+        </main>
+
+        <!-- Pantalla Final de Resultados -->
+        <section class="end-screen hidden" id="end-screen">
+            <div class="end-card">
+                <div class="trophy-badge">🏆</div>
+                <h2 class="end-title">🎣 ¡Pesca completada!</h2>
+                <p class="end-subtitle">Has terminado el reto de GitHub y JavaScript.</p>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-icon">⭐</span>
+                        <span class="stat-value" id="final-score">0</span>
+                        <span class="stat-name">Puntos Totales</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">✅</span>
+                        <span class="stat-value" id="correct-count">0 / 14</span>
+                        <span class="stat-name">Correctas</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">❌</span>
+                        <span class="stat-value" id="incorrect-count">0 / 14</span>
+                        <span class="stat-name">Incorrectas</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-icon">🎯</span>
+                        <span class="stat-value" id="accuracy-percent">0%</span>
+                        <span class="stat-name">Efectividad</span>
+                    </div>
+                </div>
+
+                <div class="feedback-message-box" id="final-message-box">
+                    <p id="final-message-text">Evaluando tu rendimiento...</p>
+                </div>
+
+                <button class="primary-btn" id="restart-btn">
+                    <span>🔄 Jugar de nuevo</span>
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
